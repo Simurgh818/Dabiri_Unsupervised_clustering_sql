@@ -43,7 +43,7 @@ from age g
 
 INNER JOIN diagnoses_icd c
 ON g.subject_id = c.subject_id
-WHERE age_group='adult' or age_group='>89' and icd9_code = '5849'
+WHERE (age_group='adult' or age_group='>89') and icd9_code = '5849'
 
 GROUP BY g.subject_id, g.age_group, c.icd9_code
 ORDER BY g.subject_id
