@@ -33,22 +33,21 @@ WITH first_admission_time AS
 			END AS age_group
 	FROM first_admission_time
 )
-select g.subject_id, g.age_group, c.icd9_code
+select g.subject_id, g.age_group, c.icd9_code, l.itemid
 from age g
-
--- 2: Select the adult and older adult group
-
+	INNER JOIN diagnoses_icd c
+	ON g.subject_id = c.subject_id
 
 -- 3: find serum creatinine and urine output info about them
+	INNER JOIN labevents AS l
+	ON c.subject_id = l.subject_id
+-- 2: Select the adult and older adult group, diagnosed for acute kidney injury
+	WHERE (age_group='adult' or age_group='>89') and icd9_code = '5849' and l.itemid = '82461'
 
-INNER JOIN diagnoses_icd c
-ON g.subject_id = c.subject_id
-WHERE (age_group='adult' or age_group='>89') and icd9_code = '5849'
-
-GROUP BY g.subject_id, g.age_group, c.icd9_code
-ORDER BY g.subject_id
-
---4: unsupervised clustering
+	GROUP BY g.subject_id, g.age_group, c.icd9_code, l.itemid
+	ORDER BY g.subject_id
+	
+-- 4: unsupervised clustering
 
 
 -- 5: plot using rSNE and UMAP
