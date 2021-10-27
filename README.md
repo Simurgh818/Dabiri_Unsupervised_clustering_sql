@@ -21,7 +21,7 @@ Once installed, the user can open the jupyter notebook called hw7_sql.ipynb to r
 
 Below scatter plot shows the scatter plot of the two classes of Acute Kidney Injury (AKI) 1 and 2 on their PC1 and PC2:
 
-![Results](PCA_of_kidney.jpg)
+![Results](PCA_of_kidney.png)
 
 ## Contributor
 [Sina Dabiri](https://github.com/Simurgh818)

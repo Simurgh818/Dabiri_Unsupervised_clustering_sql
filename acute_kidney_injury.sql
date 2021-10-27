@@ -53,12 +53,5 @@ from age g
 -- 2: Select the adult and older adult group, diagnosed for acute kidney injury icd9_code = '5849'
 	WHERE (age_group='adult' or age_group='>89') and icd9_code = '5849' and 
 	d.label ='Creatinine, Serum' and di.itemid = '40055'
--- 	 'Creatine Kinase (CK)' or d.label = 'Creatine Kinase, MB Isoenzyme' or	d.fluid = 'Urine'
 	GROUP BY g.subject_id, g.age_group, c.icd9_code, l.itemid, d.label, l.valuenum, o.itemid, di.label, o.value
-	-- d.label
 	ORDER BY g.subject_id
-	
--- 4: unsupervised clustering
-
-
--- 5: plot using rSNE and UMAP
