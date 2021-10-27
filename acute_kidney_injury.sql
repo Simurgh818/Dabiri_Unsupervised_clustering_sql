@@ -33,7 +33,7 @@ WITH first_admission_time AS
 			END AS age_group
 	FROM first_admission_time
 )
-select g.subject_id, g.age_group, c.icd9_code, l.itemid, d.label
+select g.subject_id, g.age_group, c.icd9_code, l.itemid, d.label, l.valuenum, o.itemid, di.label, o.value
 from age g
 	INNER JOIN diagnoses_icd c
 	ON g.subject_id = c.subject_id
@@ -44,13 +44,17 @@ from age g
 	
 	INNER JOIN d_labitems as d
 	ON l.itemid = d.itemid 
+	
+	INNER JOIN outputevents as o
+	ON c.subject_id = o.subject_id
+	
+	INNER JOIN d_items as di
+	ON o.itemid = di.itemid
 -- 2: Select the adult and older adult group, diagnosed for acute kidney injury icd9_code = '5849'
 	WHERE (age_group='adult' or age_group='>89') and icd9_code = '5849' and 
-	(d.label ='Creatine Kinase (CK)' or d.label = 'Creatine Kinase, MB Isoenzyme' or
-	d.fluid = 'Urine') 
--- 	and e.itemid = 'Urine'
-
-	GROUP BY g.subject_id, g.age_group, c.icd9_code, l.itemid, d.label
+	d.label ='Creatinine, Serum' and di.itemid = '40055'
+-- 	 'Creatine Kinase (CK)' or d.label = 'Creatine Kinase, MB Isoenzyme' or	d.fluid = 'Urine'
+	GROUP BY g.subject_id, g.age_group, c.icd9_code, l.itemid, d.label, l.valuenum, o.itemid, di.label, o.value
 	-- d.label
 	ORDER BY g.subject_id
 	
